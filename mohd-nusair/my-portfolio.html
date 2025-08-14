@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohd Nusair - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --purple-1: #a855f7;
+            --pink-1: #ec4899;
+            --pink-2: #f472b6;
+            --gray-1: #1f2937;
+            --gray-2: #111827;
+            --gray-3: #1f2937;
+            --gray-4: #4b5563;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* A more subtle, pulsating gradient for the main background */
+        .animate-dynamic-bg {
+            animation: dynamicBg 15s linear infinite;
+        }
+
+        @keyframes dynamicBg {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* A new floating bubble effect */
+        .animate-bubble-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%), radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+            background-size: 200px 200px, 150px 150px;
+            background-position: 0% 0%, 50% 50%;
+            animation: bubbleMove 25s infinite alternate;
+        }
+
+        @keyframes bubbleMove {
+            0% {
+                background-position: 0% 0%, 50% 50%;
+            }
+            100% {
+                background-position: 100% 100%, 0% 0%;
+            }
+        }
+
+        .animate-bounce-icon {
+            animation: bounceIcon 1s infinite;
+        }
+
+        @keyframes bounceIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Updated motion effect for the name with a more prominent aura */
+        .animate-wave-text {
+            animation: waveText 2s ease-in-out infinite alternate;
+            will-change: transform, text-shadow;
+            /* Performance optimization */
+        }
+
+        @keyframes waveText {
+            0% {
+                transform: translateY(0) scale(1);
+                text-shadow: 0 0 5px var(--pink-1), 0 0 10px var(--pink-1), 0 0 15px var(--purple-1);
+            }
+            100% {
+                transform: translateY(-5px) scale(1.02);
+                text-shadow: 0 0 10px var(--pink-1), 0 0 20px var(--purple-1), 0 0 30px var(--pink-1);
+            }
+        }
+
+        /* New animation for the waving hand effect */
+        @keyframes waving-hand {
+            0% {
+                transform: rotate(0deg);
+            }
+            15% {
+                transform: rotate(14deg);
+            }
+            30% {
+                transform: rotate(-8deg);
+            }
+            45% {
+                transform: rotate(14deg);
+            }
+            60% {
+                transform: rotate(-4deg);
+            }
+            75% {
+                transform: rotate(10deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* New animation for a pulsing icon effect */
+        @keyframes pulse-icon {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--pink-2);
+            color: var(--gray-1);
+            border-radius: 9999px;
+            padding: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            z-index: 100;
+            display: none;
+        }
+
+        .scroll-to-top:hover {
+            transform: scale(1.1);
+        }
+
+        .section-separator {
+            content: '';
+            display: block;
+            height: 1px;
+            background: linear-gradient(to right, rgba(236, 72, 153, 0) 0%, rgba(236, 72, 153, 1) 50%, rgba(236, 72, 153, 0) 100%);
+            margin: 5rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans antialiased">
+
+    <!-- Main Container -->
+    <div id="root"></div>
+
+    <script>
+        const root = document.getElementById('root');
+        
+        // This function will render the entire page
+        const renderPortfolio = () => {
+            root.innerHTML = `
+                <!-- Navbar -->
+                <nav class="fixed w-full z-50 bg-gray-900 bg-opacity-80 backdrop-filter backdrop-blur-lg border-b border-gray-700">
+                    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                        <a href="#hero" class="text-2xl font-extrabold text-white tracking-wider font-['Papyrus']">
+                            Mohd Nusair
+                        </a>
+                        <div class="hidden md:flex space-x-6">
+                            <a href="#experience" class="text-md font-semibold transition-colors duration-300 text-gray-300 hover:text-white">Experience</a>
+                            <a href="#skills" class="text-md font-semibold transition-colors duration-300 text-gray-300 hover:text-white">Skills</a>
+                            <a href="#projects" class="text-md font-semibold transition-colors duration-300 text-gray-300 hover:text-white">Projects</a>
+                            <a href="#contact" class="text-md font-semibold transition-colors duration-300 text-gray-300 hover:text-white">Contact</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Hero Section -->
+                <section id="hero" class="h-screen flex items-center justify-center bg-gray-950 text-white p-4 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-950 via-gray-900 to-purple-900 opacity-20 animate-dynamic-bg"></div>
+                    <div class="absolute top-0 left-0 w-full h-full animate-bubble-bg"></div>
+                    <div class="text-center relative z-10 animate-fade-in-up">
+                        <h1 class="text-6xl md:text-8xl font-extrabold mb-4 leading-tight tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400 drop-shadow-lg animate-wave-text font-['Papyrus']">
+                            Mohd Nusair
+                        </h1>
+                        <p class="text-3xl md:text-5xl font-light text-pink-300 mb-6 tracking-wide">
+                            Full-Stack Developer
+                        </p>
+                        <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-300 leading-relaxed">
+                            A highly motivated developer with a strong foundation in <span class="font-semibold text-white">JavaScript, React, and Node.js</span>. I have a proven track record of building scalable, full-stack applications with a keen focus on RESTful API development and database management. Eager to leverage my skills and passion for learning to master new technologies like <span class="font-semibold text-white">GoLang and Next.js</span> to create high-impact products.
+                        </p>
+                        <div class="mt-10 flex justify-center space-x-6">
+                            <a href="mailto:mohdnusair791@gmail.com" class="group relative bg-pink-500 text-gray-900 px-8 py-4 rounded-full text-lg font-bold hover:bg-pink-400 transition-colors duration-300 transform hover:scale-105 shadow-xl overflow-hidden">
+                                <span class="relative z-10 group-hover:animate-waving-hand">
+                                    Contact Me
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-separator"></div>
+
+                <!-- Experience Section -->
+                <section id="experience" class="min-h-screen py-24">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-5xl font-extrabold text-white mb-16 flex items-center gap-4 text-center justify-center relative">
+                            <span class="bg-pink-500 rounded-full p-2 text-gray-900 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>
+                            </span>
+                            Experience
+                            <div class="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-pink-400 rounded-full"></div>
+                        </h2>
+                        <div class="grid grid-cols-1 gap-12">
+                            <div class="bg-gray-800 p-8 rounded-2xl shadow-xl transition-shadow duration-300 relative group">
+                                <div class="absolute inset-0 bg-purple-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                                <div class="relative">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-2xl font-bold text-pink-400">Project Engineer (Academic Role)</h3>
+                                        <span class="text-sm font-medium text-gray-400 bg-gray-700 px-3 py-1 rounded-full">
+                                            2022 - 2024
+                                        </span>
+                                    </div>
+                                    <p class="text-lg text-purple-300 mb-4">Backend Developer</p>
+                                    <p class="text-gray-300 mb-4 leading-relaxed">
+                                        Served as a backend developer for two academic initiatives: an e-commerce platform for book listings and a weather forecasting application.
+                                    </p>
+                                    <ul class="list-disc list-inside space-y-2 text-gray-400">
+                                        <li class="flex items-start">
+                                            <span class="mr-2 text-pink-400">&#x2022;</span>
+                                            <span class="flex-1">Developed RESTful APIs using Node.js and integrated them smoothly with React-based front-end interfaces.</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="mr-2 text-pink-400">&#x2022;</span>
+                                            <span class="flex-1">Focused on backend logic, database management, and maintaining reliable client-server communication.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-separator"></div>
+
+                <!-- Skills Section -->
+                <section id="skills" class="min-h-screen py-24">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-5xl font-extrabold text-white mb-16 flex items-center gap-4 text-center justify-center relative">
+                            <span class="bg-pink-500 rounded-full p-2 text-gray-900 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="6"></circle><path d="M15.4 15.4 17.7 21l-3.3-1.6L12 22l-2.4-1.6L6.3 21l2.3-5.6"></path></svg>
+                            </span>
+                            Skills
+                            <div class="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-pink-400 rounded-full"></div>
+                        </h2>
+                        <div class="flex flex-col md:flex-row gap-12">
+                            <div class="flex-1">
+                                <h3 class="text-3xl font-bold text-white mb-8 border-b-2 border-pink-400 pb-4">
+                                    Core Technologies
+                                </h3>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">JavaScript</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers"><path d="m12.83 2.189 8.82 4.41a1 1 0 0 1 .55 1.13L20.25 14l-8.82 4.41a1 1 0 0 1-1.1-1.13L11.75 10l8.82-4.41a1 1 0 0 1 .55-1.13L12.83 2.19Z"></path><path d="m11.17 21.811-8.82-4.41a1 1 0 0 1-.55-1.13L3.75 10l8.82 4.41a1 1 0 0 1 1.1 1.13L12.25 14Z"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">ReactJS</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">HTML5</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">CSS3</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"></rect><rect width="20" height="8" x="2" y="14" rx="2" ry="2"></rect><line x1="6" x2="6" y1="6" y2="6"></line><line x1="6" x2="6" y1="18" y2="18"></line></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">Node.js</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><path d="M15 2v2"></path><path d="M15 20v2"></path><path d="M9 2v2"></path><path d="M9 20v2"></path><path d="M2 9h2"></path><path d="M2 15h2"></path><path d="M20 9h2"></path><path d="M20 15h2"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">RESTful APIs</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-git-branch"><line x1="6" x2="6" y1="3" y2="15"></line><path d="M18 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M6 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M18 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M18 15v3"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">Git</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database"><path d="M12 21a8 8 0 0 0 8-8V5a8 8 0 0 0-8-8H4a8 8 0 0 0-8 8v8a8 8 0 0 0 8 8z"></path><path d="M22 5h-4a8 8 0 0 0-8-8v8a8 8 0 0 0 8 8h4a8 8 0 0 0 8-8v-8"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">SQL</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-3xl font-bold text-white mb-8 border-b-2 border-pink-400 pb-4">
+                                    Learning & Expanding
+                                </h3>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a8 8 0 0 0-8 8c0 1.5.5 3 1.5 4.5l5.5 5.5 5.5-5.5c1-1.5 1.5-3 1.5-4.5a8 8 0 0 0-8-8z"></path><path d="M12 2v20"></path><path d="M2 12h20"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">GoLang</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers"><path d="m12.83 2.189 8.82 4.41a1 1 0 0 1 .55 1.13L20.25 14l-8.82 4.41a1 1 0 0 1-1.1-1.13L11.75 10l8.82-4.41a1 1 0 0 1 .55-1.13L12.83 2.19Z"></path><path d="m11.17 21.811-8.82-4.41a1 1 0 0 1-.55-1.13L3.75 10l8.82 4.41a1 1 0 0 1 1.1 1.13L12.25 14Z"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">NextJS</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-stack"><path d="M4 10c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-1"></path><path d="M16 8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-1"></path><path d="M12 4h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">Docker</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-lightning"><path d="M6 16.326v-5.263a7.48 7.48 0 0 1 3.51-6.195"></path><path d="M12.92 2.671a7.498 7.498 0 0 1 8.58 6.003"></path><path d="M19.162 13.924a6.5 6.5 0 0 1-3.666 5.677"></path><path d="M10.134 19.326A7.48 7.48 0 0 1 3.25 14.88"></path><path d="M12.919 2.671a7.485 7.485 0 0 1 2.379 1.13"></path><path d="M14.896 15.654a6.476 6.476 0 0 1-2.977 4.135"></path><path d="M9.134 19.326a7.494 7.494 0 0 1-2.906-1.564"></path><path d="M17.152 7.74a7.482 7.482 0 0 1 3.51 6.184"></path><path d="M13 14v5l-5-7h5l-2-5"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">Kubernetes</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rocket"><path d="M4.5 16.5c-1.5 1.26-2.5 2.87-2.5 4.5a2.5 2.5 0 0 0 2.5 2.5c1.63 0 3.24-1 4.5-2.5"></path><path d="M10.74 21.05a2.5 2.5 0 0 1-1.54-3.5L12 14l1.5-2-6-6-2 1.5a2.5 2.5 0 0 1-3.5-1.54"></path><path d="M12 14 18 8"></path><path d="m15 5 2.5-2.5A2.5 2.5 0 0 1 21 3.5c0 1.63-1 3.24-2.5 4.5L15 5Z"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">CI/CD</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud"><path d="M4 14.5a2.5 2.5 0 0 1 0-5 5 5 0 0 1 7.28-4.95 5 5 0 0 1 8.24 2.15 4.5 4.5 0 0 1 1.43 8.38 5 5 0 0 1-9.98 1.42A7.5 7.5 0 0 1 4 14.5z"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">AWS / MS Azure</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud"><path d="M4 14.5a2.5 2.5 0 0 1 0-5 5 5 0 0 1 7.28-4.95 5 5 0 0 1 8.24 2.15 4.5 4.5 0 0 1 1.43 8.38 5 5 0 0 1-9.98 1.42A7.5 7.5 0 0 1 4 14.5z"></path></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">Caching (Redis)</h4>
+                                    </div>
+                                    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center group transform transition-all duration-300 hover:scale-105 hover:bg-gray-700">
+                                        <div class="text-pink-400 mb-4 group-hover:animate-bounce-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"></rect><rect width="20" height="8" x="2" y="14" rx="2" ry="2"></rect><line x1="6" x2="6" y1="6" y2="6"></line><line x1="6" x2="6" y1="18" y2="18"></line></svg>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-white group-hover:text-pink-300">Microservices Architecture</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-separator"></div>
+
+                <!-- Projects Section -->
+                <section id="projects" class="min-h-screen py-24">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-5xl font-extrabold text-white mb-16 flex items-center gap-4 text-center justify-center relative">
+                            <span class="bg-pink-500 rounded-full p-2 text-gray-900 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            </span>
+                            Projects
+                            <div class="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-pink-400 rounded-full"></div>
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div class="bg-gray-800 p-8 rounded-2xl shadow-xl transition-shadow duration-300 relative group">
+                                <div class="absolute inset-0 bg-fuchsia-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                                <div class="relative">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-2xl font-bold text-pink-400">Word Hive (E-Commerce Platform)</h3>
+                                        <span class="text-sm font-medium text-gray-400 bg-gray-700 px-3 py-1 rounded-full">
+                                            Aug 2024 - Oct 2024
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-300 mb-6 leading-relaxed">
+                                        A streamlined digital marketplace for book shopping. Developed using HTML, CSS, and JavaScript, this project features a robust backend with a RESTful API for seamless client-server communication. It demonstrates hands-on experience in building a full-stack e-commerce application, focusing on a user-centric design and efficient data management.
+                                    </p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">HTML</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">CSS</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">JavaScript</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">REST APIs</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">E-Commerce</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-800 p-8 rounded-2xl shadow-xl transition-shadow duration-300 relative group">
+                                <div class="absolute inset-0 bg-fuchsia-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                                <div class="relative">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-2xl font-bold text-pink-400">Weather Web Application</h3>
+                                        <span class="text-sm font-medium text-gray-400 bg-gray-700 px-3 py-1 rounded-full">
+                                            Aug 2023 - Oct 2023
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-300 mb-6 leading-relaxed">
+                                        A real-time weather application developed to showcase full-stack web development. This project involves integrating external backend APIs for accurate data retrieval and utilizing databases for storing user preferences and historical data. It highlights my proficiency in backend logic, API integration, and creating dynamic, interactive user experiences.
+                                    </p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">HTML</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">CSS</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">JavaScript</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">Backend APIs</span>
+                                        <span class="bg-purple-600/40 text-purple-200 text-xs font-semibold px-3 py-1 rounded-full">Databases</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-separator"></div>
+
+                <!-- Contact Section -->
+                <section id="contact" class="min-h-screen py-24">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-5xl font-extrabold text-white mb-16 flex items-center gap-4 text-center justify-center relative">
+                            <span class="bg-pink-500 rounded-full p-2 text-gray-900 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                            </span>
+                            Contact
+                            <div class="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-pink-400 rounded-full"></div>
+                        </h2>
+                        <div class="text-center max-w-xl mx-auto">
+                            <p class="text-xl text-gray-300 mb-6">
+                                I'm currently seeking new opportunities and would love to hear from you. Feel free to reach out.
+                            </p>
+                            <a href="mailto:mohdnusair791@gmail.com" class="inline-flex items-center gap-2 bg-pink-500 text-gray-900 px-8 py-4 rounded-full text-lg font-bold hover:bg-pink-400 transition-colors duration-300 transform hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                                mohdnusair791@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="bg-gray-950 py-12 text-center text-gray-400">
+                    <div class="container mx-auto px-4">
+                        <p class="text-lg mb-4">Crafted with ❤️ by Mohd Nusair</p>
+                        <div class="mt-4 flex justify-center space-x-6">
+                            <a href="https://www.linkedin.com/in/mohd-nusair" target="_blank" rel="noopener noreferrer" class="group hover:text-white transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin group-hover:animate-pulse-icon"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            </a>
+                            <a href="mailto:mohdnusair791@gmail.com" class="group hover:text-white transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail group-hover:animate-pulse-icon"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </footer>
+
+                <!-- Scroll to top button -->
+                <div class="scroll-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up"><path d="m18 15-6-6-6 6"></path></svg>
+                </div>
+            `;
+        };
+
+        const handleScroll = () => {
+            const scrollTopBtn = document.querySelector('.scroll-to-top');
+            if (window.scrollY > 300) {
+                scrollTopBtn.style.display = 'block';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        };
+
+        // Render the page on load
+        window.onload = () => {
+            renderPortfolio();
+            window.addEventListener('scroll', handleScroll);
+        };
+    </script>
+</body>
+</html>
